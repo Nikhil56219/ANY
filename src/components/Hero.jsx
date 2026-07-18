@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // ─── Shared animation helpers ───────────────────────────────────────────────
 const ease = [0.22, 1, 0.36, 1]
@@ -15,73 +16,196 @@ const fadeIn = (delay = 0) => ({
   transition: { duration: 1.0, ease: 'easeOut', delay },
 })
 
-// ─── Navbar ─────────────────────────────────────────────────────────────────
-// ─── Navbar ─────────────────────────────────────────────────────────────────
+// ─── Navbar & Slide Menu ────────────────────────────────────────────────────
 function Navbar() {
-  return (
-    <motion.nav
-      {...fadeIn(0)}
-      className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between hero-nav"
-    >
-      {/* Logo */}
-      <a
-        href="/"
-        id="nav-logo"
-        style={{
-          fontFamily: 'Barlow, sans-serif',
-          fontWeight: 900,
-          fontSize: '22px',
-          letterSpacing: '-0.01em',
-          color: '#111',
-          lineHeight: 1,
-          textDecoration: 'none',
-          userSelect: 'none',
-        }}
-      >
-        ANY
-      </a>
+  const [isOpen, setIsOpen] = useState(false)
 
-      {/* Menu button */}
-      <button
-        id="nav-menu-btn"
-        aria-label="Open menu"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          padding: 0,
-        }}
+  const menuItems = [
+    { label: 'HOME', target: 'hero' },
+    { label: 'PROJECTS', target: 'projects' },
+    { label: 'TESTIMONIALS', target: 'testimonials' },
+    { label: 'CONTACT', target: 'contact' },
+  ]
+
+  const handleScroll = (targetId) => {
+    setIsOpen(false)
+    // Wait slightly for sidebar exit animation before scrolling
+    setTimeout(() => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
+    }, 150)
+  }
+
+  return (
+    <>
+      <motion.nav
+        {...fadeIn(0)}
+        className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between hero-nav"
       >
-        <span
+        {/* Logo */}
+        <a
+          href="/"
+          id="nav-logo"
           style={{
             fontFamily: 'Barlow, sans-serif',
-            fontWeight: 700,
-            fontSize: '13px',
-            letterSpacing: '0.17em',
+            fontWeight: 900,
+            fontSize: '22px',
+            letterSpacing: '-0.01em',
             color: '#111',
+            lineHeight: 1,
+            textDecoration: 'none',
             userSelect: 'none',
           }}
         >
-          MENU
-        </span>
-        {/* 3-line hamburger */}
-        <span
+          ANY
+        </a>
+
+        {/* Menu button */}
+        <button
+          id="nav-menu-btn"
+          aria-label="Open menu"
+          onClick={() => setIsOpen(true)}
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            gap: '5px',
-            width: '24px',
+            alignItems: 'center',
+            gap: '10px',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
           }}
         >
-          <span style={{ display: 'block', width: '100%', height: '1.5px', background: '#111' }} />
-          <span style={{ display: 'block', width: '100%', height: '1.5px', background: '#111' }} />
-          <span style={{ display: 'block', width: '75%',  height: '1.5px', background: '#111' }} />
-        </span>
-      </button>
-    </motion.nav>
+          <span
+            style={{
+              fontFamily: 'Barlow, sans-serif',
+              fontWeight: 700,
+              fontSize: '13px',
+              letterSpacing: '0.17em',
+              color: '#111',
+              userSelect: 'none',
+            }}
+          >
+            MENU
+          </span>
+          {/* 3-line hamburger */}
+          <span
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px',
+              width: '24px',
+            }}
+          >
+            <span style={{ display: 'block', width: '100%', height: '1.5px', background: '#111' }} />
+            <span style={{ display: 'block', width: '100%', height: '1.5px', background: '#111' }} />
+            <span style={{ display: 'block', width: '75%',  height: '1.5px', background: '#111' }} />
+          </span>
+        </button>
+      </motion.nav>
+
+      {/* Slide Menu Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                backgroundColor: 'rgba(17,17,17,0.3)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                zIndex: 100,
+              }}
+            />
+
+            {/* Sidebar drawer */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              style={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: 'clamp(280px, 35vw, 400px)',
+                backgroundColor: '#ffffff',
+                borderLeft: '1px solid rgba(17,17,17,0.1)',
+                boxShadow: '-10px 0 40px rgba(0,0,0,0.08)',
+                zIndex: 101,
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '40px 32px',
+              }}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsOpen(false)}
+                style={{
+                  alignSelf: 'flex-end',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  marginBottom: '60px',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'Barlow, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  letterSpacing: '0.15em',
+                  color: '#111',
+                }}>CLOSE</span>
+                {/* Close X icon */}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+
+              {/* Menu Links */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+                {menuItems.map((item, idx) => (
+                  <motion.button
+                    key={item.target}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 + 0.1 }}
+                    onClick={() => handleScroll(item.target)}
+                    style={{
+                      textAlign: 'left',
+                      fontFamily: '"Barlow Condensed", Barlow, sans-serif',
+                      fontWeight: 900,
+                      fontSize: 'clamp(28px, 3vw, 40px)',
+                      color: '#111',
+                      letterSpacing: '-0.01em',
+                      cursor: 'pointer',
+                      transition: 'color 0.2s, padding-left 0.2s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.color = '#777'
+                      e.currentTarget.style.paddingLeft = '8px'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.color = '#111'
+                      e.currentTarget.style.paddingLeft = '0px'
+                    }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 
@@ -230,6 +354,9 @@ export default function Hero() {
           {/* Primary — filled black */}
           <button
             id="cta-start-project"
+            onClick={() =>
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+            }
             style={{
               fontFamily: 'Barlow, sans-serif',
               fontWeight: 700,
