@@ -218,27 +218,26 @@ export default function Hero() {
         position: 'relative',
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: '#FAFAF8',
+        backgroundColor: '#EBEBEB',
         overflow: 'hidden',
       }}
     >
       <Navbar />
 
-      {/* Layer 2: The uploaded hand image */}
+      {/* ── Hand image — centered, anchored to top, fills viewport height ── */}
       <motion.div
         {...fadeIn(0.05)}
         style={{
           position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          width: '100%',
-          height: '100%',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'flex-start',
+          zIndex: 0,
+          pointerEvents: 'none',
         }}
       >
         <img
@@ -246,15 +245,17 @@ export default function Hero() {
           alt="Expressive hand — ANY digital agency"
           draggable={false}
           style={{
-            maxHeight: 'min(900px, 90vh)',
-            maxWidth: '100%',
+            height: '100%',
+            width: 'auto',
+            maxWidth: 'none',
             objectFit: 'contain',
+            objectPosition: 'top center',
             userSelect: 'none',
           }}
         />
       </motion.div>
 
-      {/* Layer 3: Hero content */}
+      {/* ── Text content — sits over the hand ───────────────────────────── */}
       <div
         style={{
           position: 'relative',
@@ -262,28 +263,25 @@ export default function Hero() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          width: '100%',
-          color: '#111111',
           textAlign: 'center',
-          paddingTop: 'clamp(140px, 18vh, 180px)',
+          paddingTop: 'clamp(140px, 28vh, 260px)',
           paddingBottom: '80px',
-          paddingLeft: '24px',
-          paddingRight: '24px',
+          paddingLeft: '16px',
+          paddingRight: '16px',
         }}
       >
+
         {/* Tagline */}
         <motion.p
           {...fadeUp(0.2)}
           style={{
             fontFamily: 'Barlow, sans-serif',
-            fontSize: '14px',
-            letterSpacing: '0.4em',
             fontWeight: 500,
+            fontSize: 'clamp(9px, 0.9vw, 12px)',
+            letterSpacing: '0.38em',
+            color: 'rgba(255,255,255,0.85)',
             textTransform: 'uppercase',
-            color: '#111111',
-            marginBottom: '14px',
+            marginBottom: '10px',
           }}
         >
           LIMITED ONLY BY IMAGINATION
@@ -295,10 +293,10 @@ export default function Hero() {
           style={{
             fontFamily: 'Barlow, sans-serif',
             fontWeight: 900,
-            fontSize: 'clamp(140px, 12vw, 240px)',
+            fontSize: 'clamp(100px, 18.5vw, 230px)',
             lineHeight: 0.88,
             letterSpacing: '-0.01em',
-            color: '#111111',
+            color: '#ffffff',
             userSelect: 'none',
             margin: 0,
           }}
@@ -306,17 +304,18 @@ export default function Hero() {
           ANY
         </motion.h1>
 
-        {/* WE BUILD ANYTHING. */}
+        {/* WE BUILD / ANYTHING. */}
         <motion.div
           {...fadeUp(0.5)}
           style={{
             fontFamily: 'Barlow, sans-serif',
             fontWeight: 900,
-            fontSize: 'clamp(72px, 6vw, 110px)',
-            lineHeight: 0.95,
-            color: '#111111',
+            fontSize: 'clamp(40px, 7.2vw, 92px)',
+            lineHeight: 0.92,
+            letterSpacing: '-0.01em',
+            color: '#ffffff',
             userSelect: 'none',
-            marginTop: '10px',
+            marginTop: 'clamp(2px, 0.3vw, 6px)',
           }}
         >
           <div>WE BUILD</div>
@@ -329,11 +328,11 @@ export default function Hero() {
           style={{
             fontFamily: 'Barlow, sans-serif',
             fontWeight: 400,
-            fontSize: 'clamp(18px, 2.2vw, 28px)',
-            lineHeight: 1.5,
-            color: '#111111',
-            maxWidth: '620px',
-            marginTop: '28px',
+            fontSize: 'clamp(12px, 1.1vw, 14px)',
+            lineHeight: 1.65,
+            color: 'rgba(255,255,255,0.78)',
+            maxWidth: 'clamp(220px, 24vw, 300px)',
+            marginTop: 'clamp(14px, 1.6vw, 22px)',
           }}
         >
           Whether it&apos;s a website, mobile app, AI solution,{' '}
@@ -348,11 +347,11 @@ export default function Hero() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'clamp(12px, 1.2vw, 18px)',
-            marginTop: 'clamp(32px, 3.5vw, 48px)',
+            gap: 'clamp(10px, 1vw, 14px)',
+            marginTop: 'clamp(18px, 2vw, 26px)',
           }}
         >
-          {/* Primary — filled black */}
+          {/* Primary — filled white */}
           <button
             id="cta-start-project"
             onClick={() =>
@@ -361,30 +360,30 @@ export default function Hero() {
             style={{
               fontFamily: 'Barlow, sans-serif',
               fontWeight: 700,
-              fontSize: 'clamp(11px, 0.9vw, 13px)',
-              letterSpacing: '0.15em',
+              fontSize: 'clamp(9px, 0.82vw, 11px)',
+              letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#FAFAF8',
-              backgroundColor: '#111111',
-              border: '1.5px solid #111111',
+              color: '#111',
+              backgroundColor: '#fff',
+              border: '1.5px solid #fff',
               borderRadius: '999px',
-              padding: 'clamp(14px, 1.2vw, 18px) clamp(28px, 2.6vw, 36px)',
+              padding: 'clamp(11px, 1.05vw, 14px) clamp(22px, 2.4vw, 30px)',
               cursor: 'pointer',
               transition: 'background 0.25s, color 0.25s, border-color 0.25s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = '#111111'
+              e.currentTarget.style.backgroundColor = '#eaeaea'
+              e.currentTarget.style.borderColor = '#eaeaea'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = '#111111'
-              e.currentTarget.style.color = '#FAFAF8'
+              e.currentTarget.style.backgroundColor = '#fff'
+              e.currentTarget.style.borderColor = '#fff'
             }}
           >
             START YOUR PROJECT
           </button>
 
-          {/* Secondary — outlined black */}
+          {/* Secondary — outlined white */}
           <button
             id="cta-view-work"
             onClick={() =>
@@ -393,24 +392,24 @@ export default function Hero() {
             style={{
               fontFamily: 'Barlow, sans-serif',
               fontWeight: 700,
-              fontSize: 'clamp(11px, 0.9vw, 13px)',
-              letterSpacing: '0.15em',
+              fontSize: 'clamp(9px, 0.82vw, 11px)',
+              letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#111111',
+              color: '#fff',
               backgroundColor: 'transparent',
-              border: '1.5px solid #111111',
+              border: '1.5px solid #fff',
               borderRadius: '999px',
-              padding: 'clamp(14px, 1.2vw, 18px) clamp(28px, 2.6vw, 36px)',
+              padding: 'clamp(11px, 1.05vw, 14px) clamp(22px, 2.4vw, 30px)',
               cursor: 'pointer',
               transition: 'background 0.25s, color 0.25s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = '#111111'
-              e.currentTarget.style.color = '#FAFAF8'
+              e.currentTarget.style.backgroundColor = '#fff'
+              e.currentTarget.style.color = '#111'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = '#111111'
+              e.currentTarget.style.color = '#fff'
             }}
           >
             VIEW OUR WORK
