@@ -177,7 +177,7 @@ export default function Hero() {
             margin: 0,
           }}
         >
-          ANY
+          A<span style={{ color: '#111111' }}>NY</span>
         </motion.h1>
 
         {/* WE BUILD / ANYTHING. */}
