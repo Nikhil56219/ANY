@@ -21,7 +21,26 @@ body {
   background-color: #EBEBEB;
   color: #111111;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
 }
+
+/* 60 FPS Render Optimization & Hardware Acceleration */
+article, section, button, img, a {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0,0,0);
+}
+
+a, button {
+  touch-action: manipulation;
+}
+
+/* Off-screen rendering budget optimization */
+#projects, #testimonials, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
 
 /* ─── Typography utilities ───────────────────── */
 .text-hero {
@@ -85,15 +104,15 @@ button {
     flex-wrap: wrap;
   }
   #projects > div > div:last-child > article {
-    flex: 1 1 calc(50% - 8px);
-    min-width: 260px;
+    flex: 1 1 calc(50% - 8px) !important;
+    min-width: 260px !important;
   }
 }
 
 @media (max-width: 640px) {
   #projects > div > div:last-child > article {
-    flex: 1 1 100%;
-    min-width: 0;
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
   }
 }
 
@@ -103,15 +122,15 @@ button {
     flex-wrap: wrap;
   }
   .testimonials-grid > div {
-    flex: 1 1 calc(50% - 10px);
-    min-width: 260px;
+    flex: 1 1 calc(50% - 10px) !important;
+    min-width: 260px !important;
   }
 }
 
 @media (max-width: 640px) {
   .testimonials-grid > div {
-    flex: 1 1 100%;
-    min-width: 0;
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
   }
 }
 

@@ -52,6 +52,7 @@ function TestimonialCard({ item, index }) {
         flexDirection: 'column',
         gap: '16px',
         cursor: 'default',
+        willChange: 'transform, box-shadow',
       }}
     >
       {/* Large quotation mark */}
@@ -207,11 +208,11 @@ export default function Testimonials() {
           </motion.h2>
         </div>
 
-        {/* ── Cards row ────────────────────────────────────────────────── */}
         <div
           className="testimonials-grid"
           style={{
             display: 'flex',
+            flexWrap: 'wrap',
             gap: 'clamp(12px, 1.4vw, 20px)',
           }}
         >
