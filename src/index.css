@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Reset ─────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base ───────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background-color: #EBEBEB;
+  color: #111111;
+  overflow-x: hidden;
+}
+
+/* ─── Typography utilities ───────────────────── */
+.text-hero {
+  font-size: clamp(110px, 19.5vw, 240px);
+  line-height: 0.88;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.text-sub-hero {
+  font-size: clamp(44px, 8vw, 105px);
+  line-height: 0.9;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Button reset ───────────────────────────── */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* ─── Global Responsive Elements ────────────── */
+.hero-nav {
+  padding: 28px 36px;
+}
+@media (max-width: 640px) {
+  .hero-nav {
+    padding: 20px 24px;
+  }
+}
+
+@media (max-width: 500px) {
+  .hero-buttons {
+    flex-direction: column !important;
+    width: 100%;
+    padding: 0 16px;
+    gap: 12px !important;
+  }
+  .hero-buttons > button {
+    width: 100% !important;
+    text-align: center;
+  }
+}
+
+/* ─── Projects section responsive ───────────── */
+@media (max-width: 1024px) {
+  /* Stack layout vertically, centering or left-aligning elements nicely */
+  #projects > div {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 36px !important;
+  }
+  #projects > div > div:first-child {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+  }
+  #projects > div > div:last-child {
+    flex-wrap: wrap;
+  }
+  #projects > div > div:last-child > article {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  #projects > div > div:last-child > article {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
+/* ─── Testimonials section responsive ────────── */
+@media (max-width: 1024px) {
+  .testimonials-grid {
+    flex-wrap: wrap;
+  }
+  .testimonials-grid > div {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials-grid > div {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
+/* ─── Contact section responsive ─────────────── */
+@media (max-width: 900px) {
+  .contact-grid {
+    flex-direction: column !important;
+    gap: 48px !important;
+  }
+  .contact-grid > div:first-child {
+    width: 100% !important;
+  }
+}
+
