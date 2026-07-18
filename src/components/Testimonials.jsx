@@ -45,7 +45,7 @@ function TestimonialCard({ item, index }) {
         flex: '1 1 0',
         minWidth: 0,
         backgroundColor: '#fff',
-        border: '1px solid #E5E5E5',
+        border: '1px solid #111111',
         borderRadius: '24px',
         padding: 'clamp(24px, 2.4vw, 32px)',
         display: 'flex',
