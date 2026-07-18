@@ -226,7 +226,28 @@ export default function Contact() {
           style={{ flex: 1, minWidth: 0 }}
         >
           <form
-            onSubmit={e => e.preventDefault()}
+            onSubmit={e => {
+              e.preventDefault()
+              const name = document.getElementById('contact-name')?.value || ''
+              const email = document.getElementById('contact-email')?.value || ''
+              const projectType = document.getElementById('contact-project-type')?.value || ''
+              const budget = document.getElementById('contact-budget')?.value || ''
+              const message = document.getElementById('contact-message')?.value || ''
+
+              const subject = encodeURIComponent(`New Project Request from ${name}`)
+              const body = encodeURIComponent(
+                `Hi ANY Team,\n\n` +
+                `I would like to submit a project inquiry:\n\n` +
+                `• Name: ${name}\n` +
+                `• Email: ${email}\n` +
+                `• Project Type: ${projectType || 'Not specified'}\n` +
+                `• Budget Range: ${budget || 'Not specified'}\n\n` +
+                `• Message:\n${message}\n\n` +
+                `Looking forward to hearing from you!`
+              )
+
+              window.location.href = `mailto:any.agency@gmail.com?subject=${subject}&body=${body}`
+            }}
             style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}
           >
             {/* NAME */}
