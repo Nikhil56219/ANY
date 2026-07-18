@@ -155,7 +155,7 @@ export default function Hero() {
             fontWeight: 500,
             fontSize: 'clamp(9px, 0.9vw, 12px)',
             letterSpacing: '0.38em',
-            color: 'rgba(255,255,255,0.85)',
+            color: 'rgba(17,17,17,0.72)',
             textTransform: 'uppercase',
             marginBottom: '10px',
           }}
@@ -167,29 +167,29 @@ export default function Hero() {
         <motion.h1
           {...fadeUp(0.35)}
           style={{
-            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
+            fontFamily: 'Barlow, sans-serif',
             fontWeight: 900,
             fontSize: 'clamp(100px, 18.5vw, 230px)',
             lineHeight: 0.88,
             letterSpacing: '-0.01em',
-            color: '#ffffff',
+            color: '#111111',
             userSelect: 'none',
             margin: 0,
           }}
         >
-          A<span style={{ color: '#111111' }}>NY</span>
+          A<span style={{ color: '#ffffff' }}>N</span>Y
         </motion.h1>
 
         {/* WE BUILD / ANYTHING. */}
         <motion.div
           {...fadeUp(0.5)}
           style={{
-            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
+            fontFamily: 'Barlow, sans-serif',
             fontWeight: 900,
             fontSize: 'clamp(40px, 7.2vw, 92px)',
             lineHeight: 0.92,
             letterSpacing: '-0.01em',
-            color: '#ffffff',
+            color: '#111111',
             userSelect: 'none',
             marginTop: 'clamp(2px, 0.3vw, 6px)',
           }}
@@ -206,7 +206,7 @@ export default function Hero() {
             fontWeight: 400,
             fontSize: 'clamp(12px, 1.1vw, 14px)',
             lineHeight: 1.65,
-            color: 'rgba(255,255,255,0.78)',
+            color: 'rgba(17,17,17,0.68)',
             maxWidth: 'clamp(220px, 24vw, 300px)',
             marginTop: 'clamp(14px, 1.6vw, 22px)',
           }}
@@ -227,7 +227,7 @@ export default function Hero() {
             marginTop: 'clamp(18px, 2vw, 26px)',
           }}
         >
-          {/* Primary — filled white */}
+          {/* Primary — filled black */}
           <button
             id="cta-start-project"
             style={{
@@ -236,27 +236,27 @@ export default function Hero() {
               fontSize: 'clamp(9px, 0.82vw, 11px)',
               letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#111',
-              backgroundColor: '#fff',
-              border: '1.5px solid #fff',
+              color: '#fff',
+              backgroundColor: '#111',
+              border: '1.5px solid #111',
               borderRadius: '999px',
               padding: 'clamp(11px, 1.05vw, 14px) clamp(22px, 2.4vw, 30px)',
               cursor: 'pointer',
               transition: 'background 0.25s, color 0.25s, border-color 0.25s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = '#eaeaea'
-              e.currentTarget.style.borderColor = '#eaeaea'
+              e.currentTarget.style.backgroundColor = '#333'
+              e.currentTarget.style.borderColor = '#333'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = '#fff'
-              e.currentTarget.style.borderColor = '#fff'
+              e.currentTarget.style.backgroundColor = '#111'
+              e.currentTarget.style.borderColor = '#111'
             }}
           >
             START YOUR PROJECT
           </button>
 
-          {/* Secondary — outlined white */}
+          {/* Secondary — outlined black */}
           <button
             id="cta-view-work"
             onClick={() =>
@@ -268,21 +268,21 @@ export default function Hero() {
               fontSize: 'clamp(9px, 0.82vw, 11px)',
               letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#fff',
+              color: '#111',
               backgroundColor: 'transparent',
-              border: '1.5px solid #fff',
+              border: '1.5px solid #111',
               borderRadius: '999px',
               padding: 'clamp(11px, 1.05vw, 14px) clamp(22px, 2.4vw, 30px)',
               cursor: 'pointer',
               transition: 'background 0.25s, color 0.25s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = '#fff'
-              e.currentTarget.style.color = '#111'
+              e.currentTarget.style.backgroundColor = '#111'
+              e.currentTarget.style.color = '#fff'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = '#fff'
+              e.currentTarget.style.color = '#111'
             }}
           >
             VIEW OUR WORK
