@@ -330,13 +330,14 @@ export default function Hero() {
         <motion.p
           {...fadeUp(0.2)}
           style={{
-            fontFamily: 'Barlow, sans-serif',
+            fontFamily: '"Neue Montreal", sans-serif',
             fontWeight: 500,
-            fontSize: 'clamp(9px, 0.9vw, 12px)',
-            letterSpacing: '0.38em',
+            fontSize: '15px',
+            letterSpacing: '0.42em',
             color: 'rgba(17, 17, 17, 0.72)',
             textTransform: 'uppercase',
-            marginBottom: '10px',
+            textAlign: 'center',
+            marginBottom: '32px',
           }}
         >
           LIMITED ONLY BY IMAGINATION
@@ -346,12 +347,13 @@ export default function Hero() {
         <motion.h1
           {...fadeUp(0.35)}
           style={{
-            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
-            fontWeight: 900,
-            fontSize: 'clamp(100px, 18.5vw, 230px)',
-            lineHeight: 0.88,
-            letterSpacing: '-0.01em',
-            color: '#111',
+            fontFamily: '"Neue Montreal", sans-serif',
+            fontWeight: 700,
+            fontSize: 'clamp(170px, 13vw, 210px)',
+            lineHeight: 0.82,
+            letterSpacing: '-0.06em',
+            color: '#111111',
+            textAlign: 'center',
             userSelect: 'none',
             margin: 0,
           }}
@@ -363,14 +365,15 @@ export default function Hero() {
         <motion.div
           {...fadeUp(0.5)}
           style={{
-            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
-            fontWeight: 900,
-            fontSize: 'clamp(40px, 7.2vw, 92px)',
-            lineHeight: 0.92,
-            letterSpacing: '-0.01em',
+            fontFamily: '"Neue Montreal", sans-serif',
+            fontWeight: 700,
+            fontSize: 'clamp(82px, 6vw, 110px)',
+            lineHeight: 0.86,
+            letterSpacing: '-0.055em',
             color: '#111',
+            textAlign: 'center',
             userSelect: 'none',
-            marginTop: 'clamp(2px, 0.3vw, 6px)',
+            marginTop: '26px',
           }}
         >
           <div>WE BUILD</div>
