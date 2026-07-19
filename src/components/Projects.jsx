@@ -1,18 +1,13 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 // ─── Project data ────────────────────────────────────────────────────────────
-// Tweak scale / x / y to reposition or zoom each image inside its card.
-//   scale  → zoom level (1 = normal, 1.2 = 20% zoom in)
-//   x      → horizontal offset in px  (positive = right, negative = left)
-//   y      → vertical offset in px    (positive = down,  negative = up)
 const projects = [
   {
     number: '01',
     title: 'JUICY',
     image: '/juicy.png',
     categories: ['Retail Website', 'Website Design', 'Development'],
-    // ↓ image positioning — edit these freely
     scale: 1.2,
     x: 0,
     y: -1,
@@ -23,7 +18,6 @@ const projects = [
     title: 'INTERVIEWCOACH AI',
     image: '/interviewcoach.png',
     categories: ['AI Platform', 'Web Application', 'Aditya University'],
-    // ↓ image positioning — edit these freely
     scale: 1,
     x: 23,
     y: 0,
@@ -34,7 +28,6 @@ const projects = [
     title: 'TOURGO',
     image: '/tourgo.png',
     categories: ['UI/UX Design', 'Mobile App Design', 'Travel Startup'],
-    // ↓ image positioning — edit these freely
     scale: 1.0,
     x: 0,
     y: 0,
@@ -66,26 +59,35 @@ function ArrowIcon({ size = 16, style }) {
 
 // ─── Project Card ────────────────────────────────────────────────────────────
 function ProjectCard({ project, index }) {
+  // Arrow rotation variant propagating from card hover
+  const arrowVariants = {
+    initial: { rotate: 0 },
+    hover: { rotate: 45, transition: { type: 'spring', stiffness: 300, damping: 15 } }
+  }
+
+  // Image zoom variant propagating from card hover
+  const imageVariants = {
+    initial: { 
+      scale: project.scale ?? 1,
+      x: project.x ?? 0,
+      y: project.y ?? 0
+    },
+    hover: { 
+      scale: (project.scale ?? 1) * 1.05,
+      x: project.x ?? 0,
+      y: project.y ?? 0,
+      transition: { duration: 0.45, ease: 'easeOut' }
+    }
+  }
+
   return (
     <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial="initial"
+      whileHover="hover"
       viewport={{ once: true, margin: '-60px' }}
-      transition={{
-        duration: 0.65,
-        ease: [0.22, 1, 0.36, 1],
-        delay: index * 0.12,
-      }}
-      whileHover={{
-        y: -8,
-        scale: 1.02,
-        boxShadow: '0 16px 40px rgba(0,0,0,0.10)',
-        transition: { duration: 0.28, ease: 'easeOut' },
-      }}
-      onClick={() => project.link && window.open(project.link, '_blank', 'noopener,noreferrer')}
       style={{
         backgroundColor: '#fff',
-        border: '1px solid #111111',
+        border: '1px solid rgba(17, 17, 17, 0.08)',
         borderRadius: '24px',
         overflow: 'hidden',
         display: 'flex',
@@ -93,7 +95,21 @@ function ProjectCard({ project, index }) {
         cursor: project.link ? 'pointer' : 'default',
         flex: '1 1 0',
         minWidth: 0,
+        position: 'relative',
       }}
+      variants={{
+        initial: {
+          y: 0,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+        },
+        hover: {
+          y: -8,
+          boxShadow: '0 20px 48px rgba(0,0,0,0.06)',
+          borderColor: 'rgba(17, 17, 17, 0.16)',
+          transition: { duration: 0.3, ease: 'easeOut' },
+        }
+      }}
+      onClick={() => project.link && window.open(project.link, '_blank', 'noopener,noreferrer')}
     >
       {/* Card header */}
       <div
@@ -129,26 +145,23 @@ function ProjectCard({ project, index }) {
           aspectRatio: '4/3',
           overflow: 'hidden',
           flexShrink: 0,
-          position: 'relative',   // ← allows img to be absolutely positioned
+          position: 'relative',
         }}
       >
-        <img
+        <motion.img
           src={project.image}
           alt={project.title}
           draggable={false}
           style={{
-            // Fills the container completely — no gaps ever
             position: 'absolute',
             inset: 0,
             width: '100%',
             height: '100%',
             objectFit: 'cover',
             display: 'block',
-            // scale / x / y come from the project data above
-            // scale >= 1 zooms in, scale = 1 fills perfectly
-            transform: `scale(${project.scale ?? 1}) translate(${project.x ?? 0}px, ${project.y ?? 0}px)`,
             transformOrigin: 'center center',
           }}
+          variants={imageVariants}
         />
       </div>
 
@@ -163,17 +176,22 @@ function ProjectCard({ project, index }) {
         }}
       >
         {/* Title */}
-        <span
+        <motion.span
           style={{
             fontFamily: 'Barlow, sans-serif',
             fontWeight: 800,
             fontSize: 'clamp(13px, 1.1vw, 15px)',
             color: '#111',
             letterSpacing: '0.01em',
+            transition: 'color 0.25s',
+          }}
+          variants={{
+            initial: { color: '#111' },
+            hover: { color: '#000' }
           }}
         >
           {project.title}
-        </span>
+        </motion.span>
 
         {/* Categories + Arrow */}
         <div
@@ -205,8 +223,7 @@ function ProjectCard({ project, index }) {
 
           {/* Arrow */}
           <motion.div
-            whileHover={{ rotate: 15 }}
-            transition={{ duration: 0.2 }}
+            variants={arrowVariants}
             style={{
               flexShrink: 0,
               color: '#111',
@@ -302,8 +319,10 @@ export default function Projects() {
 
           {/* VIEW ALL PROJECTS button */}
           <motion.button
-            whileHover={{ backgroundColor: '#111', color: '#fff' }}
-            transition={{ duration: 0.22 }}
+            initial="initial"
+            whileHover="hover"
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.2 }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -323,8 +342,17 @@ export default function Projects() {
               marginBottom: 'clamp(40px, 8vw, 80px)',
             }}
           >
-            VIEW ALL PROJECTS
-            <ArrowIcon size={13} />
+            <span>VIEW ALL PROJECTS</span>
+            <motion.div
+              variants={{
+                initial: { x: 0, y: 0 },
+                hover: { x: 3, y: -3 }
+              }}
+              transition={{ duration: 0.2 }}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <ArrowIcon size={13} />
+            </motion.div>
           </motion.button>
 
           {/* Bottom tagline */}

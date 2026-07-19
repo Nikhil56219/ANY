@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const ease = [0.22, 1, 0.36, 1]
@@ -9,6 +10,27 @@ function EmailIcon() {
       <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="M2 7l10 7 10-7" />
     </svg>
+  )
+}
+
+// Checkmark icon for successful submission
+function CheckIcon() {
+  return (
+    <motion.svg 
+      width="20" 
+      height="20" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+      initial={{ scale: 0, rotate: -20 }}
+      animate={{ scale: 1, rotate: 0 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 10 }}
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </motion.svg>
   )
 }
 
@@ -99,7 +121,7 @@ function ContactItem({ icon, label, value, href }) {
   )
 }
 
-// ─── Form field helpers ───────────────────────────────────────────────────────
+// ─── Reusable custom inputs with focus-sliding border animation ─────────────────
 const fieldLabel = {
   fontFamily: 'Barlow, sans-serif',
   fontWeight: 700,
@@ -125,8 +147,164 @@ const fieldInput = {
   appearance: 'none',
 }
 
+function FormInput({ label, id, value, onChange, placeholder, type = 'text', required = true }) {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div>
+      <label htmlFor={id} style={fieldLabel}>{label}</label>
+      <div style={{ position: 'relative', width: '100%' }}>
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          required={required}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          style={fieldInput}
+        />
+        <motion.div
+          animate={{ scaleX: isFocused ? 1 : 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '2px',
+            backgroundColor: '#111',
+            transformOrigin: 'center center',
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+function FormSelect({ label, id, value, onChange, options, required = true }) {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div>
+      <label htmlFor={id} style={fieldLabel}>{label}</label>
+      <div style={{ position: 'relative', width: '100%' }}>
+        <select
+          id={id}
+          value={value}
+          onChange={onChange}
+          required={required}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          style={{
+            ...fieldInput,
+            cursor: 'pointer',
+            paddingRight: '28px',
+          }}
+        >
+          <option value="" disabled>Select {label.toLowerCase()}</option>
+          {options.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+        {/* Dropdown arrow */}
+        <svg
+          style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#111' }}
+          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+        <motion.div
+          animate={{ scaleX: isFocused ? 1 : 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '2px',
+            backgroundColor: '#111',
+            transformOrigin: 'center center',
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+// ─── Custom textarea with sliding border ───
+function FormTextarea({ label, id, value, onChange, placeholder, rows = 4, required = true }) {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div>
+      <label htmlFor={id} style={fieldLabel}>{label}</label>
+      <div style={{ position: 'relative', width: '100%' }}>
+        <textarea
+          id={id}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          rows={rows}
+          required={required}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          style={{
+            ...fieldInput,
+            resize: 'vertical',
+            minHeight: '90px',
+            lineHeight: 1.6,
+          }}
+        />
+        <motion.div
+          animate={{ scaleX: isFocused ? 1 : 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '2px',
+            backgroundColor: '#111',
+            transformOrigin: 'center center',
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
 // ─── Contact Section ──────────────────────────────────────────────────────────
 export default function Contact() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [projectType, setProjectType] = useState('')
+  const [budget, setBudget] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'success'
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (status !== 'idle') return
+
+    setStatus('sending')
+    // Mock submission delay
+    setTimeout(() => {
+      setStatus('success')
+      // Reset form
+      setName('')
+      setEmail('')
+      setProjectType('')
+      setBudget('')
+      setMessage('')
+      // Clear success feedback after 5 seconds
+      setTimeout(() => {
+        setStatus('idle')
+      }, 5000)
+    }, 1200)
+  }
+
   return (
     <section
       id="contact"
@@ -191,8 +369,10 @@ export default function Contact() {
           {/* Available badge */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px' }}>
             <span style={{
-              width: '8px', height: '8px', borderRadius: '50%',
-              backgroundColor: 'rgba(17,17,17,0.35)', flexShrink: 0,
+              width: '8px', height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#111',
+              flexShrink: 0,
             }} />
             <span style={{
               fontFamily: 'Barlow, sans-serif', fontWeight: 600,
@@ -226,132 +406,74 @@ export default function Contact() {
           style={{ flex: 1, minWidth: 0 }}
         >
           <form
-            onSubmit={e => {
-              e.preventDefault()
-              const name = document.getElementById('contact-name')?.value || ''
-              const email = document.getElementById('contact-email')?.value || ''
-              const projectType = document.getElementById('contact-project-type')?.value || ''
-              const budget = document.getElementById('contact-budget')?.value || ''
-              const message = document.getElementById('contact-message')?.value || ''
-
-              const subject = encodeURIComponent(`New Project Request from ${name}`)
-              const body = encodeURIComponent(
-                `Hi ANY Team,\n\n` +
-                `I would like to submit a project inquiry:\n\n` +
-                `• Name: ${name}\n` +
-                `• Email: ${email}\n` +
-                `• Project Type: ${projectType || 'Not specified'}\n` +
-                `• Budget Range: ${budget || 'Not specified'}\n\n` +
-                `• Message:\n${message}\n\n` +
-                `Looking forward to hearing from you!`
-              )
-
-              window.location.href = `mailto:any.agency@gmail.com?subject=${subject}&body=${body}`
-            }}
+            onSubmit={handleSubmit}
             style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}
           >
             {/* NAME */}
-            <div>
-              <label style={fieldLabel}>NAME</label>
-              <input
-                id="contact-name"
-                type="text"
-                placeholder="Your name"
-                style={{ ...fieldInput }}
-              />
-            </div>
+            <FormInput
+              label="NAME"
+              id="contact-name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="Your name"
+            />
 
             {/* EMAIL */}
-            <div>
-              <label style={fieldLabel}>EMAIL</label>
-              <input
-                id="contact-email"
-                type="email"
-                placeholder="you@example.com"
-                style={{ ...fieldInput }}
-              />
-            </div>
+            <FormInput
+              label="EMAIL"
+              id="contact-email"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="you@example.com"
+            />
 
             {/* PROJECT TYPE */}
-            <div>
-              <label style={fieldLabel}>PROJECT TYPE</label>
-              <div style={{ position: 'relative' }}>
-                <select
-                  id="contact-project-type"
-                  defaultValue=""
-                  style={{
-                    ...fieldInput,
-                    cursor: 'pointer',
-                    paddingRight: '28px',
-                  }}
-                >
-                  <option value="" disabled>Select project type</option>
-                  <option>Website Design</option>
-                  <option>Mobile App</option>
-                  <option>AI Platform</option>
-                  <option>Branding</option>
-                  <option>Custom Software</option>
-                </select>
-                {/* Dropdown arrow */}
-                <svg
-                  style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#111' }}
-                  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </div>
-            </div>
+            <FormSelect
+              label="PROJECT TYPE"
+              id="contact-project-type"
+              value={projectType}
+              onChange={e => setProjectType(e.target.value)}
+              options={[
+                'Website Design',
+                'Mobile App',
+                'AI Platform',
+                'Branding',
+                'Custom Software'
+              ]}
+            />
 
             {/* BUDGET */}
-            <div>
-              <label style={fieldLabel}>BUDGET</label>
-              <div style={{ position: 'relative' }}>
-                <select
-                  id="contact-budget"
-                  defaultValue=""
-                  style={{
-                    ...fieldInput,
-                    cursor: 'pointer',
-                    paddingRight: '28px',
-                  }}
-                >
-                  <option value="" disabled>Select budget range</option>
-                  <option>Under ₹50,000</option>
-                  <option>₹50,000 – ₹1,50,000</option>
-                  <option>₹1,50,000 – ₹5,00,000</option>
-                  <option>₹5,00,000+</option>
-                </select>
-                <svg
-                  style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#111' }}
-                  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </div>
-            </div>
+            <FormSelect
+              label="BUDGET"
+              id="contact-budget"
+              value={budget}
+              onChange={e => setBudget(e.target.value)}
+              options={[
+                'Under ₹50,000',
+                '₹50,000 – ₹1,50,000',
+                '₹1,50,000 – ₹5,00,000',
+                '₹5,00,000+'
+              ]}
+            />
 
             {/* MESSAGE */}
-            <div>
-              <label style={fieldLabel}>TELL US ABOUT YOUR PROJECT</label>
-              <textarea
-                id="contact-message"
-                placeholder="Write your message here..."
-                rows={4}
-                style={{
-                  ...fieldInput,
-                  resize: 'vertical',
-                  minHeight: '90px',
-                  lineHeight: 1.6,
-                }}
-              />
-            </div>
+            <FormTextarea
+              label="TELL US ABOUT YOUR PROJECT"
+              id="contact-message"
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              placeholder="Write your message here..."
+            />
 
-            {/* SEND REQUEST */}
+            {/* SEND REQUEST BUTTON */}
             <div>
               <motion.button
                 type="submit"
                 id="contact-submit"
-                whileHover={{ backgroundColor: '#333' }}
+                disabled={status === 'sending'}
+                whileHover={status === 'success' ? {} : { backgroundColor: '#333' }}
+                whileTap={status === 'success' ? {} : { scale: 0.98 }}
                 transition={{ duration: 0.2 }}
                 style={{
                   width: '100%',
@@ -365,27 +487,76 @@ export default function Contact() {
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
                   color: '#fff',
-                  backgroundColor: '#111',
+                  backgroundColor: status === 'success' ? '#10B981' : '#111',
                   border: 'none',
                   borderRadius: '10px',
                   padding: '18px 28px',
-                  cursor: 'pointer',
+                  cursor: status === 'sending' ? 'not-allowed' : 'pointer',
+                  transition: 'background-color 0.3s ease',
                 }}
               >
-                SEND REQUEST
-                <ArrowRightIcon />
+                {status === 'idle' && (
+                  <>
+                    SEND REQUEST
+                    <ArrowRightIcon />
+                  </>
+                )}
+                {status === 'sending' && (
+                  <>
+                    SENDING...
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        borderRadius: '50%',
+                        border: '2px solid rgba(255,255,255,0.3)',
+                        borderTopColor: '#ffffff',
+                      }}
+                    />
+                  </>
+                )}
+                {status === 'success' && (
+                  <>
+                    REQUEST SENT! THANK YOU
+                    <CheckIcon />
+                  </>
+                )}
               </motion.button>
 
-              <p style={{
-                fontFamily: 'Barlow, sans-serif',
-                fontWeight: 400,
-                fontSize: '12px',
-                color: 'rgba(17,17,17,0.45)',
-                textAlign: 'center',
-                marginTop: '12px',
-              }}>
-                We usually reply within 24 hours.
-              </p>
+              <AnimatePresence>
+                {status === 'success' && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                      fontFamily: 'Barlow, sans-serif',
+                      fontWeight: 500,
+                      fontSize: '13px',
+                      color: '#10B981',
+                      textAlign: 'center',
+                      marginTop: '12px',
+                    }}
+                  >
+                    We have successfully received your details and will reply within 24 hours.
+                  </motion.p>
+                )}
+              </AnimatePresence>
+
+              {status !== 'success' && (
+                <p style={{
+                  fontFamily: 'Barlow, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '12px',
+                  color: 'rgba(17,17,17,0.45)',
+                  textAlign: 'center',
+                  marginTop: '12px',
+                }}>
+                  We usually reply within 24 hours.
+                </p>
+              )}
             </div>
           </form>
         </motion.div>

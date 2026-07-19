@@ -38,21 +38,24 @@ function TestimonialCard({ item, index }) {
       transition={{ duration: 0.6, ease, delay: 0.15 + index * 0.12 }}
       whileHover={{
         y: -8,
-        boxShadow: '0 18px 48px rgba(0,0,0,0.10)',
+        boxShadow: '0 20px 48px rgba(0,0,0,0.3)',
+        borderColor: 'rgba(255,255,255,0.22)',
+        backgroundColor: 'rgba(255,255,255,0.06)',
         transition: { duration: 0.28, ease: 'easeOut' },
       }}
       style={{
         flex: '1 1 0',
         minWidth: 0,
-        backgroundColor: '#fff',
-        border: '1px solid #111111',
+        backgroundColor: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '24px',
         padding: 'clamp(24px, 2.4vw, 32px)',
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
         cursor: 'default',
-        willChange: 'transform, box-shadow',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
       }}
     >
       {/* Large quotation mark */}
@@ -61,7 +64,8 @@ function TestimonialCard({ item, index }) {
           fontFamily: 'Georgia, serif',
           fontSize: '52px',
           lineHeight: 0.8,
-          color: '#111',
+          color: '#ffffff',
+          opacity: 0.25,
           fontWeight: 700,
           userSelect: 'none',
           marginBottom: '4px',
@@ -76,7 +80,7 @@ function TestimonialCard({ item, index }) {
           fontFamily: 'Barlow, sans-serif',
           fontWeight: 400,
           fontSize: 'clamp(13px, 1.05vw, 15px)',
-          color: 'rgba(17,17,17,0.80)',
+          color: 'rgba(255,255,255,0.85)',
           lineHeight: 1.7,
           margin: 0,
           flexGrow: 1,
@@ -90,7 +94,7 @@ function TestimonialCard({ item, index }) {
         style={{
           width: '100%',
           height: '1px',
-          backgroundColor: '#E5E5E5',
+          backgroundColor: 'rgba(255,255,255,0.1)',
           marginTop: '4px',
         }}
       />
@@ -103,8 +107,8 @@ function TestimonialCard({ item, index }) {
             width: '40px',
             height: '40px',
             borderRadius: '50%',
-            backgroundColor: '#111',
-            color: '#fff',
+            backgroundColor: '#ffffff',
+            color: '#111111',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -126,7 +130,7 @@ function TestimonialCard({ item, index }) {
               fontFamily: 'Barlow, sans-serif',
               fontWeight: 700,
               fontSize: 'clamp(13px, 1vw, 15px)',
-              color: '#111',
+              color: '#ffffff',
               lineHeight: 1,
             }}
           >
@@ -138,7 +142,7 @@ function TestimonialCard({ item, index }) {
               fontWeight: 400,
               fontSize: 'clamp(10px, 0.75vw, 11px)',
               letterSpacing: '0.10em',
-              color: 'rgba(17,17,17,0.5)',
+              color: 'rgba(255,255,255,0.5)',
               textTransform: 'uppercase',
             }}
           >
@@ -156,15 +160,19 @@ export default function Testimonials() {
     <section
       id="testimonials"
       style={{
-        backgroundColor: '#EBEBEB',
+        backgroundColor: '#111111',
         width: '100%',
         padding: 'clamp(60px, 8vw, 110px) clamp(24px, 5vw, 72px)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
       <div
         style={{
           maxWidth: '1280px',
           margin: '0 auto',
+          position: 'relative',
+          zIndex: 2,
         }}
       >
         {/* ── Section heading ──────────────────────────────────────────── */}
@@ -180,7 +188,7 @@ export default function Testimonials() {
               fontWeight: 500,
               fontSize: 'clamp(9px, 0.75vw, 11px)',
               letterSpacing: '0.32em',
-              color: 'rgba(17,17,17,0.6)',
+              color: 'rgba(255,255,255,0.5)',
               textTransform: 'uppercase',
               marginBottom: '12px',
             }}
@@ -200,7 +208,7 @@ export default function Testimonials() {
               fontSize: 'clamp(52px, 9vw, 120px)',
               lineHeight: 0.92,
               letterSpacing: '-0.01em',
-              color: '#111',
+              color: '#ffffff',
               margin: 0,
             }}
           >
@@ -208,11 +216,11 @@ export default function Testimonials() {
           </motion.h2>
         </div>
 
+        {/* ── Cards row ────────────────────────────────────────────────── */}
         <div
           className="testimonials-grid"
           style={{
             display: 'flex',
-            flexWrap: 'wrap',
             gap: 'clamp(12px, 1.4vw, 20px)',
           }}
         >

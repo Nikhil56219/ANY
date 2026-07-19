@@ -29,7 +29,6 @@ function Navbar() {
 
   const handleScroll = (targetId) => {
     setIsOpen(false)
-    // Wait slightly for sidebar exit animation before scrolling
     setTimeout(() => {
       document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
     }, 150)
@@ -41,10 +40,12 @@ function Navbar() {
         {...fadeIn(0)}
         className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between hero-nav"
       >
-        {/* Logo */}
-        <a
+        {/* Logo with letter-spacing animation on hover */}
+        <motion.a
           href="/"
           id="nav-logo"
+          whileHover={{ letterSpacing: '0.15em' }}
+          transition={{ duration: 0.3 }}
           style={{
             fontFamily: 'Barlow, sans-serif',
             fontWeight: 900,
@@ -57,7 +58,7 @@ function Navbar() {
           }}
         >
           ANY
-        </a>
+        </motion.a>
 
         {/* Menu button */}
         <button
@@ -106,7 +107,7 @@ function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop with elegant blur */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -115,9 +116,9 @@ function Navbar() {
               style={{
                 position: 'fixed',
                 inset: 0,
-                backgroundColor: 'rgba(17,17,17,0.3)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
+                backgroundColor: 'rgba(17, 17, 17, 0.3)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
                 zIndex: 100,
               }}
             />
@@ -133,14 +134,14 @@ function Navbar() {
                 top: 0,
                 right: 0,
                 bottom: 0,
-                width: 'clamp(280px, 35vw, 400px)',
+                width: 'clamp(290px, 38vw, 420px)',
                 backgroundColor: '#ffffff',
-                borderLeft: '1px solid rgba(17,17,17,0.1)',
-                boxShadow: '-10px 0 40px rgba(0,0,0,0.08)',
+                borderLeft: '1px solid rgba(17, 17, 17, 0.08)',
+                boxShadow: '-15px 0 45px rgba(0, 0, 0, 0.08)',
                 zIndex: 101,
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '40px 32px',
+                padding: '40px 36px',
               }}
             >
               {/* Close Button */}
@@ -153,6 +154,9 @@ function Navbar() {
                   gap: '8px',
                   cursor: 'pointer',
                   marginBottom: '60px',
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
                 }}
               >
                 <span style={{
@@ -163,43 +167,95 @@ function Navbar() {
                   color: '#111',
                 }}>CLOSE</span>
                 {/* Close X icon */}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <motion.svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#111"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  whileHover={{ rotate: 90 }}
+                  transition={{ type: 'spring', damping: 12 }}
+                >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+                </motion.svg>
               </button>
 
               {/* Menu Links */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                 {menuItems.map((item, idx) => (
                   <motion.button
                     key={item.target}
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 + 0.1 }}
+                    transition={{ delay: idx * 0.06 + 0.1, ease }}
                     onClick={() => handleScroll(item.target)}
                     style={{
                       textAlign: 'left',
                       fontFamily: '"Barlow Condensed", Barlow, sans-serif',
                       fontWeight: 900,
-                      fontSize: 'clamp(28px, 3vw, 40px)',
+                      fontSize: 'clamp(28px, 3.5vw, 44px)',
                       color: '#111',
                       letterSpacing: '-0.01em',
                       cursor: 'pointer',
-                      transition: 'color 0.2s, padding-left 0.2s',
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      position: 'relative',
                     }}
                     onMouseEnter={e => {
                       e.currentTarget.style.color = '#777'
-                      e.currentTarget.style.paddingLeft = '8px'
+                      e.currentTarget.style.paddingLeft = '12px'
                     }}
                     onMouseLeave={e => {
                       e.currentTarget.style.color = '#111'
                       e.currentTarget.style.paddingLeft = '0px'
                     }}
                   >
+                    <span style={{
+                      fontFamily: 'Barlow, sans-serif',
+                      fontWeight: 500,
+                      fontSize: '14px',
+                      color: 'rgba(17, 17, 17, 0.35)',
+                      marginRight: '16px',
+                      marginTop: '8px',
+                    }}>
+                      0{idx + 1}
+                    </span>
                     {item.label}
                   </motion.button>
                 ))}
+              </div>
+
+              {/* Footer info in Sidebar */}
+              <div style={{ marginTop: 'auto' }}>
+                <div style={{ height: '1px', backgroundColor: 'rgba(17, 17, 17, 0.08)', marginBottom: '20px' }} />
+                <span style={{
+                  fontFamily: 'Barlow, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '9px',
+                  letterSpacing: '0.14em',
+                  color: 'rgba(17, 17, 17, 0.45)',
+                  textTransform: 'uppercase',
+                  display: 'block',
+                }}>
+                  ANY AGENCY
+                </span>
+                <span style={{
+                  fontFamily: 'Barlow, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '12px',
+                  color: 'rgba(17, 17, 17, 0.55)',
+                  marginTop: '4px',
+                  display: 'block',
+                }}>
+                  Limited only by imagination.
+                </span>
               </div>
             </motion.div>
           </>
@@ -209,7 +265,7 @@ function Navbar() {
   )
 }
 
-// ─── Hero ────────────────────────────────────────────────────────────────────
+// ─── Hero Section ────────────────────────────────────────────────────────────
 export default function Hero() {
   return (
     <section
@@ -270,7 +326,6 @@ export default function Hero() {
           paddingRight: '16px',
         }}
       >
-
         {/* Tagline */}
         <motion.p
           {...fadeUp(0.2)}
@@ -279,7 +334,7 @@ export default function Hero() {
             fontWeight: 500,
             fontSize: 'clamp(9px, 0.9vw, 12px)',
             letterSpacing: '0.38em',
-            color: 'rgba(255,255,255,0.85)',
+            color: 'rgba(17, 17, 17, 0.72)',
             textTransform: 'uppercase',
             marginBottom: '10px',
           }}
@@ -291,12 +346,12 @@ export default function Hero() {
         <motion.h1
           {...fadeUp(0.35)}
           style={{
-            fontFamily: 'Barlow, sans-serif',
+            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
             fontWeight: 900,
             fontSize: 'clamp(100px, 18.5vw, 230px)',
             lineHeight: 0.88,
             letterSpacing: '-0.01em',
-            color: '#ffffff',
+            color: '#111',
             userSelect: 'none',
             margin: 0,
           }}
@@ -308,12 +363,12 @@ export default function Hero() {
         <motion.div
           {...fadeUp(0.5)}
           style={{
-            fontFamily: 'Barlow, sans-serif',
+            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
             fontWeight: 900,
             fontSize: 'clamp(40px, 7.2vw, 92px)',
             lineHeight: 0.92,
             letterSpacing: '-0.01em',
-            color: '#ffffff',
+            color: '#111',
             userSelect: 'none',
             marginTop: 'clamp(2px, 0.3vw, 6px)',
           }}
@@ -330,7 +385,7 @@ export default function Hero() {
             fontWeight: 400,
             fontSize: 'clamp(12px, 1.1vw, 14px)',
             lineHeight: 1.65,
-            color: 'rgba(255,255,255,0.78)',
+            color: 'rgba(17, 17, 17, 0.68)',
             maxWidth: 'clamp(220px, 24vw, 300px)',
             marginTop: 'clamp(14px, 1.6vw, 22px)',
           }}
@@ -351,7 +406,7 @@ export default function Hero() {
             marginTop: 'clamp(18px, 2vw, 26px)',
           }}
         >
-          {/* Primary — filled white */}
+          {/* Primary — filled black */}
           <button
             id="cta-start-project"
             onClick={() =>
@@ -363,27 +418,27 @@ export default function Hero() {
               fontSize: 'clamp(9px, 0.82vw, 11px)',
               letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#111',
-              backgroundColor: '#fff',
-              border: '1.5px solid #fff',
+              color: '#fff',
+              backgroundColor: '#111',
+              border: '1.5px solid #111',
               borderRadius: '999px',
               padding: 'clamp(11px, 1.05vw, 14px) clamp(22px, 2.4vw, 30px)',
               cursor: 'pointer',
-              transition: 'background 0.25s, color 0.25s, border-color 0.25s',
+              transition: 'background 0.25s, color 0.25s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = '#eaeaea'
-              e.currentTarget.style.borderColor = '#eaeaea'
+              e.currentTarget.style.backgroundColor = '#333'
+              e.currentTarget.style.borderColor = '#333'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = '#fff'
-              e.currentTarget.style.borderColor = '#fff'
+              e.currentTarget.style.backgroundColor = '#111'
+              e.currentTarget.style.borderColor = '#111'
             }}
           >
             START YOUR PROJECT
           </button>
 
-          {/* Secondary — outlined white */}
+          {/* Secondary — outlined */}
           <button
             id="cta-view-work"
             onClick={() =>
@@ -395,27 +450,88 @@ export default function Hero() {
               fontSize: 'clamp(9px, 0.82vw, 11px)',
               letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#fff',
+              color: '#111',
               backgroundColor: 'transparent',
-              border: '1.5px solid #fff',
+              border: '1.5px solid #111',
               borderRadius: '999px',
               padding: 'clamp(11px, 1.05vw, 14px) clamp(22px, 2.4vw, 30px)',
               cursor: 'pointer',
               transition: 'background 0.25s, color 0.25s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = '#fff'
-              e.currentTarget.style.color = '#111'
+              e.currentTarget.style.backgroundColor = '#111'
+              e.currentTarget.style.color = '#fff'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = '#fff'
+              e.currentTarget.style.color = '#111'
             }}
           >
             VIEW OUR WORK
           </button>
         </motion.div>
       </div>
+
+      {/* ── Scroll Down Indicator ── */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.1, duration: 0.8 }}
+        style={{
+          position: 'absolute',
+          bottom: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '8px',
+          cursor: 'pointer',
+          zIndex: 10,
+        }}
+        onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+      >
+        <span style={{
+          fontFamily: 'Barlow, sans-serif',
+          fontWeight: 600,
+          fontSize: '9px',
+          letterSpacing: '0.22em',
+          color: 'rgba(17, 17, 17, 0.45)',
+          textTransform: 'uppercase',
+        }}>
+          SCROLL DOWN
+        </span>
+        {/* Animated Mouse indicator */}
+        <div style={{
+          width: '18px',
+          height: '28px',
+          borderRadius: '9px',
+          border: '1.5px solid rgba(17, 17, 17, 0.3)',
+          position: 'relative',
+        }}>
+          <motion.div
+            animate={{
+              y: [3, 14, 3],
+              opacity: [1, 0, 1],
+            }}
+            transition={{
+              duration: 1.6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            style={{
+              width: '3px',
+              height: '5px',
+              backgroundColor: 'rgba(17, 17, 17, 0.6)',
+              borderRadius: '50%',
+              position: 'absolute',
+              top: '4px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+            }}
+          />
+        </div>
+      </motion.div>
     </section>
   )
 }
