@@ -330,14 +330,13 @@ export default function Hero() {
         <motion.p
           {...fadeUp(0.2)}
           style={{
-            fontFamily: '"Neue Montreal", sans-serif',
+            fontFamily: 'Barlow, sans-serif',
             fontWeight: 500,
-            fontSize: '15px',
-            letterSpacing: '0.42em',
+            fontSize: 'clamp(9px, 0.9vw, 12px)',
+            letterSpacing: '0.38em',
             color: 'rgba(17, 17, 17, 0.72)',
             textTransform: 'uppercase',
-            textAlign: 'center',
-            marginBottom: '32px',
+            marginBottom: '10px',
           }}
         >
           LIMITED ONLY BY IMAGINATION
@@ -349,9 +348,9 @@ export default function Hero() {
           style={{
             fontFamily: '"Neue Montreal", sans-serif',
             fontWeight: 700,
-            fontSize: 'clamp(170px, 13vw, 210px)',
+            fontSize: 'clamp(210px, 20.5vw, 290px)',
             lineHeight: 0.82,
-            letterSpacing: '-0.06em',
+            letterSpacing: '-0.015em',
             color: '#111111',
             textAlign: 'center',
             userSelect: 'none',
@@ -365,15 +364,14 @@ export default function Hero() {
         <motion.div
           {...fadeUp(0.5)}
           style={{
-            fontFamily: '"Neue Montreal", sans-serif',
-            fontWeight: 700,
-            fontSize: 'clamp(82px, 6vw, 110px)',
-            lineHeight: 0.86,
-            letterSpacing: '-0.055em',
+            fontFamily: '"Barlow Condensed", Barlow, sans-serif',
+            fontWeight: 900,
+            fontSize: 'clamp(40px, 7.2vw, 92px)',
+            lineHeight: 0.92,
+            letterSpacing: '-0.01em',
             color: '#111',
-            textAlign: 'center',
             userSelect: 'none',
-            marginTop: '26px',
+            marginTop: 'clamp(2px, 0.3vw, 6px)',
           }}
         >
           <div>WE BUILD</div>
@@ -475,6 +473,38 @@ export default function Hero() {
         </motion.div>
       </div>
 
+      {/* ── Layer 3: Over-hand image (clipped to cover right half of "ANY" only) ── */}
+      <motion.div
+        {...fadeIn(0.05)}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          zIndex: 15, // Sit on top of the ANY heading (10)
+          pointerEvents: 'none',
+          clipPath: 'polygon(50.3% 15%, 70% 15%, 70% 65%, 50.3% 65%)',
+        }}
+      >
+        <img
+          src="/bg.png"
+          alt="Expressive hand overlay — ANY digital agency"
+          draggable={false}
+          style={{
+            height: '100%',
+            width: 'auto',
+            maxWidth: 'none',
+            objectFit: 'contain',
+            objectPosition: 'top center',
+            userSelect: 'none',
+          }}
+        />
+      </motion.div>
+
       {/* ── Scroll Down Indicator ── */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -490,7 +520,7 @@ export default function Hero() {
           alignItems: 'center',
           gap: '8px',
           cursor: 'pointer',
-          zIndex: 10,
+          zIndex: 30, // Elevated z-index to stay clickable above hand overlay
         }}
         onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
       >
